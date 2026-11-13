@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kaerlix — Full-stack Web Developer</title>
+<meta name="description" content="Kaerlix — independent full-stack developer. I design, build and launch complete web apps for founders and businesses worldwide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a09; --bg2:#10100e; --card:#131311; --line:rgba(236,235,230,.09); --line2:rgba(236,235,230,.16);
+  --text:#ecebe6; --muted:#8d8b83; --dim:#5c5a54; --gold:#d8b26e; --gold2:#f1d9a8; --ok:#7bd88f;
+  --serif:'Instrument Serif',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  --pad:clamp(20px,5vw,72px); --max:1240px; --ease:cubic-bezier(.2,.7,.1,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gold);color:#0a0a09}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.serif{font-family:var(--serif);font-weight:400}
+em{font-style:italic;color:var(--gold2)}
+
+/* grain + glow */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.glow{position:fixed;width:700px;height:700px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(216,178,110,.10),transparent 60%);transform:translate(-50%,-50%);transition:opacity .4s;left:50%;top:20%}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
+header.scrolled{background:rgba(10,10,9,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font-family:var(--serif);font-size:26px;letter-spacing:-.01em}
+.logo span{color:var(--gold)}
+.navlinks{display:flex;gap:34px;align-items:center}
+.navlinks a{font-size:14px;color:var(--muted);transition:color .25s}
+.navlinks a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:999px;font-size:14px;font-weight:500;transition:transform .3s var(--ease),background .3s,color .3s,border-color .3s;will-change:transform}
+.btn-gold{background:var(--text);color:#0a0a09}
+.btn-gold:hover{background:var(--gold2)}
+.btn-ghost{border:1px solid var(--line2);color:var(--text)}
+.btn-ghost:hover{border-color:var(--gold)}
+.btn .arr{transition:transform .3s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+.nav-cta{padding:10px 18px}
+
+/* hero */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:110px;padding-bottom:60px;z-index:1}
+.status{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border:1px solid var(--line2);border-radius:999px;font-size:13px;color:var(--muted);margin-bottom:38px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(123,216,143,.6);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(123,216,143,0)}100%{box-shadow:0 0 0 0 rgba(123,216,143,0)}}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(52px,9.2vw,138px);line-height:.95;letter-spacing:-.025em;max-width:12ch}
+h1 .line{display:block;overflow:hidden;padding-bottom:.06em}
+h1 .line > span{display:inline-block;transform:translateY(105%);animation:rise 1.1s var(--ease) forwards}
+h1 .line:nth-child(2) > span{animation-delay:.12s}
+h1 .line:nth-child(3) > span{animation-delay:.24s}
+@keyframes rise{to{transform:none}}
+.hero-bottom{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:end;margin-top:56px}
+.hero-sub{font-size:clamp(17px,1.5vw,20px);color:var(--muted);max-width:46ch;font-weight:300}
+.hero-sub strong{color:var(--text);font-weight:400}
+.hero-actions{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+.hero-meta{display:flex;justify-content:space-between;margin-top:80px;padding-top:22px;border-top:1px solid var(--line);gap:20px;flex-wrap:wrap}
+.hero-meta div{display:flex;flex-direction:column;gap:4px}
+.hero-meta b{font-weight:400;font-size:15px}
+.fade-in{opacity:0;animation:fade 1.2s var(--ease) .5s forwards}
+@keyframes fade{to{opacity:1}}
+
+/* marquee */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:22px 0;position:relative;z-index:1}
+.track{display:flex;gap:56px;width:max-content;animation:scroll 40s linear infinite}
+.track span{font-family:var(--serif);font-size:30px;color:var(--dim);white-space:nowrap;display:flex;align-items:center;gap:56px}
+.track span::after{content:"✦";font-size:14px;color:var(--gold)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* sections */
+section{position:relative;z-index:1}
+.sec{padding:150px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:80px;gap:30px;flex-wrap:wrap}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(44px,6vw,88px);line-height:1;letter-spacing:-.02em}
+.sec-head p{max-width:38ch;color:var(--muted)}
+
+/* projects */
+.project{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(30px,5vw,80px);align-items:center;padding:70px 0;border-top:1px solid var(--line)}
+.project:last-of-type{border-bottom:1px solid var(--line)}
+.project.rev{grid-template-columns:1.15fr 1fr}
+.project.rev .p-info{order:2}
+.p-num{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.1em}
+.p-title{font-family:var(--serif);font-size:clamp(40px,4.6vw,64px);line-height:1;margin:16px 0 10px;letter-spacing:-.015em}
+.p-tag{font-size:18px;color:var(--text);font-weight:300;margin-bottom:22px}
+.p-desc{color:var(--muted);margin-bottom:28px;max-width:52ch}
+.p-list{list-style:none;margin-bottom:30px;display:grid;gap:10px}
+.p-list li{display:flex;gap:12px;font-size:15px;color:#c9c7c0}
+.p-list li::before{content:"";flex:none;width:14px;height:1px;background:var(--gold);margin-top:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.05em;padding:6px 11px;border:1px solid var(--line2);border-radius:999px;color:var(--muted)}
+.p-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ok);margin-left:14px}
+.p-badge.soon{color:var(--gold)}
+.p-badge i{width:6px;height:6px;border-radius:50%;background:currentColor}
+.metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:30px}
+.metric{background:var(--bg);padding:18px 18px 16px}
+.metric b{display:block;font-family:var(--serif);font-weight:400;font-size:34px;line-height:1;color:var(--text)}
+.metric span{font-size:12px;color:var(--muted)}
+
+/* visual stage */
+.stage{position:relative;aspect-ratio:1/1.02;border-radius:28px;background:linear-gradient(160deg,#16150f,#0d0d0b 60%);border:1px solid var(--line);overflow:hidden;display:grid;place-items:center;transform-style:preserve-3d;transition:transform .6s var(--ease)}
+.stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 20%,rgba(216,178,110,.16),transparent 55%)}
+.stage .gridbg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(circle at 50% 50%,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(circle at 50% 50%,#000 30%,transparent 75%)}
+
+/* phone mock */
+.phone{position:relative;width:min(62%,300px);aspect-ratio:9/18.5;border-radius:42px;background:#0b0b0a;border:1px solid var(--line2);padding:12px;box-shadow:0 50px 100px -30px rgba(0,0,0,.9),0 0 0 6px #151512}
+.screen{position:relative;height:100%;border-radius:32px;overflow:hidden;background:#11110f}
+.map{position:absolute;inset:0;background:
+ linear-gradient(115deg,transparent 47%,rgba(255,255,255,.05) 47%,rgba(255,255,255,.05) 50%,transparent 50%),
+ linear-gradient(25deg,transparent 60%,rgba(255,255,255,.04) 60%,rgba(255,255,255,.04) 62%,transparent 62%),
+ linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+ background-size:100% 100%,100% 100%,26px 26px,26px 26px}
+.route{position:absolute;inset:0;width:100%;height:100%}
+.route path{stroke-dasharray:6 8;animation:dash 1.4s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-28}}
+.pin{position:absolute;display:flex;align-items:center;gap:6px;font-size:10px;font-family:var(--mono);background:rgba(10,10,9,.85);border:1px solid var(--line2);padding:5px 8px;border-radius:999px;color:var(--text)}
+.pin i{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.pin.b i{background:var(--ok)}
+.sheet{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(19,19,17,.92);backdrop-filter:blur(8px);border:1px solid var(--line2);border-radius:22px;padding:14px}
+.sheet .row{display:flex;justify-content:space-between;align-items:center}
+.sheet .lbl{font-size:10px;color:var(--muted);font-family:var(--mono);letter-spacing:.06em}
+.sheet .price{font-family:var(--serif);font-size:30px;line-height:1}
+.sheet .old{font-size:11px;color:var(--dim);text-decoration:line-through}
+.sheet .seats{display:flex;gap:5px;margin:12px 0}
+.sheet .seats i{flex:1;height:5px;border-radius:3px;background:var(--line2)}
+.sheet .seats i.on{background:var(--gold)}
+.sheet .go{background:var(--gold);color:#0a0a09;text-align:center;font-size:12px;font-weight:600;padding:10px;border-radius:12px}
+.logo-y{position:absolute;top:14px;left:14px;width:30px;height:30px;border-radius:8px;background:#f5c518;color:#111;font-weight:700;font-size:12px;display:grid;place-items:center;font-family:system-ui}
+
+/* glass dashboard */
+.dash{position:relative;width:86%;aspect-ratio:1.25/1;border-radius:22px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(18px);box-shadow:0 50px 100px -30px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08);display:grid;grid-template-columns:22% 1fr;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(40px);opacity:.55}
+.side{border-right:1px solid rgba(255,255,255,.08);padding:16px 12px;display:flex;flex-direction:column;gap:9px}
+.side i{display:block;height:8px;border-radius:4px;background:rgba(255,255,255,.08)}
+.side i.act{background:linear-gradient(90deg,var(--gold),transparent)}
+.side .av{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--gold2),#8a6a33);margin-bottom:10px}
+.main{padding:16px;display:grid;grid-template-rows:auto 1fr auto;gap:12px}
+.main .top{display:flex;justify-content:space-between;align-items:center}
+.main h4{font-family:var(--serif);font-weight:400;font-size:20px}
+.ring{width:46px;height:46px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gcard{border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:10px;display:flex;flex-direction:column;gap:7px}
+.gcard .t{font-size:10px;color:var(--muted);font-family:var(--mono)}
+.gcard .bar{height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.gcard .bar b{display:block;height:100%;background:var(--gold);border-radius:3px}
+.gcard .l{height:6px;border-radius:3px;background:rgba(255,255,255,.07)}
+.ai{display:flex;gap:8px;align-items:flex-start}
+.ai .bub{flex:1;font-size:10.5px;line-height:1.45;color:#d7d5ce;background:rgba(216,178,110,.10);border:1px solid rgba(216,178,110,.25);padding:8px 10px;border-radius:12px 12px 12px 4px}
+.ai .ic{width:22px;height:22px;border-radius:7px;background:var(--gold);display:grid;place-items:center;color:#0a0a09;font-size:11px;font-weight:700;flex:none}
+.typing::after{content:"▍";animation:blink 1s steps(1) infinite;color:var(--gold)}
+@keyframes blink{50%{opacity:0}}
+
+
+/* RuleSight mock */
+.rs{position:relative;width:84%;border-radius:20px;background:var(--card);border:1px solid var(--line2);padding:18px;display:grid;gap:9px;box-shadow:0 50px 100px -30px rgba(0,0,0,.9)}
+.rs-top{display:flex;gap:14px;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.rs-top h4{font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.1}
+.rs-ring{width:50px;height:50px;flex:none}
+.rs-code{font-variant-ligatures:none;font-family:var(--mono);font-size:10.5px;color:#cfcdc6;background:rgba(216,178,110,.08);border-left:2px solid var(--gold);padding:7px 9px;border-radius:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rs-code .ln{color:var(--gold);margin-right:10px}
+.rs-code b{font-weight:400;color:var(--gold2)}
+.rs-f{display:flex;align-items:center;gap:10px;font-size:12px;color:#dcdad3;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg)}
+.rs-f i{font-style:normal;font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;padding:3px 0;width:56px;text-align:center;border-radius:5px;flex:none}
+.rs-f.c i{background:rgba(255,107,107,.15);color:#ff6b6b}
+.rs-f.h i{background:rgba(255,159,67,.14);color:#ffb26b}
+.rs-f.m i{background:rgba(216,178,110,.14);color:var(--gold2)}
+
+/* POS lab */
+.pos{width:84%;display:grid;grid-template-columns:1.4fr 1fr;gap:12px}
+.pos .panel{border-radius:18px;background:var(--card);border:1px solid var(--line2);padding:14px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.tile{aspect-ratio:1;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:flex-end;padding:8px;font-size:10px;color:var(--muted);transition:background .3s,border-color .3s}
+.tile b{color:var(--text);font-weight:500;font-size:11px}
+.tile.hit{background:rgba(216,178,110,.14);border-color:rgba(216,178,110,.5)}
+.ticket .ln{display:flex;justify-content:space-between;font-size:11px;padding:7px 0;border-bottom:1px dashed var(--line2);color:#cfcdc6}
+.ticket .tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px}
+.ticket .tot b{font-family:var(--serif);font-weight:400;font-size:26px}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.svc{padding:44px 34px 48px 0;border-right:1px solid var(--line);position:relative}
+.svc + .svc{padding-left:34px}
+.svc:last-child{border-right:none}
+.svc .n{font-family:var(--mono);font-size:12px;color:var(--gold)}
+.svc h3{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.05;margin:26px 0 16px}
+.svc p{color:var(--muted);font-size:15px;margin-bottom:22px}
+.svc ul{list-style:none;display:grid;gap:8px;font-size:14px;color:#c9c7c0}
+.svc ul li::before{content:"→ ";color:var(--dim)}
+
+/* process */
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}
+.step{border:1px solid var(--line);border-radius:22px;padding:28px 24px;background:var(--bg2);transition:border-color .4s,transform .4s var(--ease)}
+.step:hover{border-color:rgba(216,178,110,.4);transform:translateY(-4px)}
+.step .mono{color:var(--gold)}
+.step h4{font-family:var(--serif);font-weight:400;font-size:28px;margin:40px 0 10px}
+.step p{font-size:14px;color:var(--muted)}
+
+/* about */
+.about-text{max-width:900px}
+.about-text p.big{font-family:var(--serif);font-size:clamp(28px,3vw,40px);line-height:1.2;letter-spacing:-.01em;margin-bottom:28px}
+.about-text p{color:var(--muted);margin-bottom:18px;max-width:54ch}
+.creds{display:grid;gap:0;border-top:1px solid var(--line)}
+.cred{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid var(--line)}
+.cred b{font-weight:400;font-size:17px;display:block}
+.cred span{font-size:13px;color:var(--muted)}
+.cred .yr{font-family:var(--mono);font-size:12px;color:var(--gold);white-space:nowrap}
+
+/* contact */
+.contact{padding:170px 0 120px;text-align:center}
+.contact h2{font-size:clamp(56px,10vw,160px);line-height:.92;margin:26px 0 50px}
+.mail{display:inline-flex;align-items:center;gap:16px;font-family:var(--serif);font-size:clamp(24px,3vw,40px);padding:18px 32px;border:1px solid var(--line2);border-radius:999px;transition:border-color .3s,background .3s;cursor:pointer;background:transparent;color:var(--text)}
+.mail:hover{border-color:var(--gold);background:rgba(216,178,110,.05)}
+.mail small{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.socials{display:flex;justify-content:center;gap:28px;margin-top:44px;flex-wrap:wrap}
+.socials a{font-size:14px;color:var(--muted);border-bottom:1px solid transparent;transition:color .25s,border-color .25s;padding-bottom:2px}
+.socials a:hover{color:var(--text);border-color:var(--gold)}
+footer{border-top:1px solid var(--line);padding:28px 0;position:relative;z-index:1}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+.toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,20px);background:var(--text);color:#0a0a09;padding:10px 18px;border-radius:999px;font-size:13px;opacity:0;transition:all .4s var(--ease);z-index:200;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:980px){
+  .navlinks a:not(.btn){display:none}
+  .hero-bottom,.project,.project.rev,.about{grid-template-columns:1fr}
+  .project.rev .p-info{order:0}
+  .hero-actions{justify-content:flex-start}
+  .services{grid-template-columns:1fr}
+  .svc,.svc+.svc{padding:40px 0;border-right:none;border-bottom:1px solid var(--line)}
+  .process{grid-template-columns:1fr 1fr}
+  .sec{padding:100px 0}
+}
+@media (max-width:560px){
+  .process{grid-template-columns:1fr}
+  .metric b{font-size:26px}
+  .pos{grid-template-columns:1fr;width:88%}
+  .pos .ticket{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  h1 .line>span{transform:none}.rv{opacity:1;transform:none}.fade-in{opacity:1}
+}
+</style>
+</head>
+<body>
+<div class="glow" id="glow"></div>
+
+<header id="hdr">
+  <nav class="wrap">
+    <a href="#top" class="logo">Kaerlix<span>.</span></a>
+    <div class="navlinks">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="btn btn-gold nav-cta">Let's talk <span class="arr">→</span></a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero wrap">
+  <div class="status fade-in"><span class="dot"></span>Available for freelance projects</div>
+  <h1>
+    <span class="line"><span>I build web</span></span>
+    <span class="line"><span>apps people</span></span>
+    <span class="line"><span><em>actually use.</em></span></span>
+  </h1>
+  <div class="hero-bottom fade-in">
+    <p class="hero-sub">Independent full-stack developer. I take products from <strong>first idea to real users</strong> — design, code, database, payments and launch — for founders and businesses anywhere in the world.</p>
+    <div class="hero-actions">
+      <a href="#work" class="btn btn-ghost mag">Selected work</a>
+      <a href="#contact" class="btn btn-gold mag">Start a project <span class="arr">→</span></a>
+    </div>
+  </div>
+  <div class="hero-meta fade-in">
+    <div><span class="mono">Stack</span><b>JavaScript · Firebase</b></div>
+    <div><span class="mono">Approach</span><b>Security-first</b></div>
+    <div><span class="mono">Focus</span><b>Full web apps · MVPs</b></div>
+    <div><span class="mono">Works</span><b>Remote, worldwide</b></div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>TypeScript</span><span>React</span><span>JavaScript</span><span>Firebase</span><span>Firestore</span><span>Cloudflare R2</span><span>Python</span><span>SQL</span><span>C</span><span>GitHub</span><span>Security-first</span>
+    <span>TypeScript</span><span>React</span><span>JavaScript</span><span>Firebase</span><span>Firestore</span><span>Cloudflare R2</span><span>Python</span><span>SQL</span><span>C</span><span>GitHub</span><span>Security-first</span>
+  </div>
+</div>
+
+<!-- WORK -->
+<section class="sec" id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="rv">Selected <em>work</em></h2>
+      <p class="rv d1">Real products, built for real markets — not tutorial clones. Each one solves a problem I saw with my own eyes.</p>
+    </div>
+
+    <!-- 01 RideShare -->
+    <article class="project">
+      <div class="p-info rv">
+        <span class="p-num">01 — MOBILITY</span><span class="p-badge"><i></i>Live</span>
+        <h3 class="p-title">Yahia RideShare</h3>
+        <p class="p-tag">Student ride-sharing for the universities of Annaba, Algeria.</p>
+        <p class="p-desc">Students were taking two shared taxis and waiting in queues to reach campus. Yahia connects them with student drivers going the same way — one direct ride, cheaper and faster.</p>
+        <div class="metric-row">
+          <div class="metric"><b>~90 DA</b><span>per trip, direct</span></div>
+          <div class="metric"><b>130 DA</b><span>before, 2 taxis</span></div>
+          <div class="metric"><b>3</b><span>languages · AR FR EN</span></div>
+        </div>
+        <ul class="p-list">
+          <li>Automatic distance-based pricing to prevent abuse — fairer per seat as the car fills up</li>
+          <li>Driver wallet with per-seat commission, charged only when the trip is completed</li>
+          <li>Driver verification flow: licence photo, plate and vehicle details</li>
+        </ul>
+        <div class="chips"><span class="chip">JavaScript</span><span class="chip">Firebase Auth</span><span class="chip">Firestore</span><span class="chip">Security rules</span><span class="chip">GitHub Pages</span></div>
+        <a href="https://kaerlix-maker.github.io/yahia-rideshare/" target="_blank" rel="noopener" class="btn btn-ghost mag">View live app <span class="arr">↗</span></a>
+      </div>
+      <div class="stage rv d2 tilt">
+        <div class="gridbg"></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="map"></div>
+            <div class="logo-y">يحيى</div>
+            <svg class="route" viewBox="0 0 100 200" preserveAspectRatio="none">
+              <path d="M22 48 C 40 70, 30 95, 55 105 S 82 120, 76 140" fill="none" stroke="#d8b26e" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <div class="pin" style="left:12%;top:20%"><i></i>Home</div>
+            <div class="pin b" style="right:8%;top:66%"><i></i>Université</div>
+            <div class="sheet">
+              <div class="row"><span class="lbl">YOUR SEAT</span><span class="old">130 DA · 2 taxis</span></div>
+              <div class="row" style="margin-top:4px"><span class="price">90 DA</span><span class="lbl" style="color:var(--ok)">● DIRECT</span></div>
+              <div class="seats"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+              <div class="go">Book seat</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 02 Academy -->
+    <article class="project rev">
+      <div class="p-info rv">
+        <span class="p-num">02 — EDTECH · SAAS</span><span class="p-badge soon"><i></i>Pre-launch</span>
+        <h3 class="p-title">Yahia Academy</h3>
+        <p class="p-tag">A platform where every teacher launches their own digital academy — with an AI tutor built in.</p>
+        <p class="p-desc">Independent teachers and tutoring schools get a complete online school in minutes: classes, recorded lessons, live sessions, quizzes and payments. Students get a personal dashboard and an AI tutor that helps between lessons.</p>
+        <ul class="p-list">
+          <li>Multi-tenant architecture: independent teachers and schools with several teachers</li>
+          <li>Built-in revenue split — schools receive payments and pay their teachers inside the platform</li>
+          <li>Self-hosted lesson video on Cloudflare R2, MCQ quizzes and a daily study plan</li>
+          <li>Dark “liquid glass” interface designed for long study sessions</li>
+        </ul>
+        <div class="chips"><span class="chip">JavaScript</span><span class="chip">Firebase</span><span class="chip">Cloudflare R2</span><span class="chip">AI tutor</span><span class="chip">Payments</span></div>
+      </div>
+      <div class="stage rv d2 tilt">
+        <div class="gridbg"></div>
+        <div class="blob" style="width:220px;height:220px;background:#8a6a33;left:8%;top:12%"></div>
+        <div class="blob" style="width:180px;height:180px;background:#3d3a5c;right:6%;bottom:10%"></div>
+        <div class="dash">
+          <div class="side"><div class="av"></div><i class="act"></i><i></i><i></i><i style="width:70%"></i><i></i></div>
+          <div class="main">
+            <div class="top"><div><div class="mono" style="font-size:9px">GOOD MORNING</div><h4>Your plan today</h4></div>
+              <svg class="ring" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3"/><circle cx="18" cy="18" r="15" fill="none" stroke="#d8b26e" stroke-width="3" stroke-dasharray="68 100" stroke-linecap="round" transform="rotate(-90 18 18)"/><text x="18" y="21" text-anchor="middle" fill="#ecebe6" font-size="8" font-family="Inter">72%</text></svg>
+            </div>
+            <div class="cards">
+              <div class="gcard"><span class="t">ANALYSIS · L4</span><div class="bar"><b style="width:80%"></b></div><div class="l"></div><div class="l" style="width:60%"></div></div>
+              <div class="gcard"><span class="t">QCM · ALGEBRA</span><div class="bar"><b style="width:45%"></b></div><div class="l"></div><div class="l" style="width:75%"></div></div>
+            </div>
+            <div class="ai"><span class="ic">AI</span><div class="bub"><span id="aiText"></span><span class="typing"></span></div></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 RuleSight -->
+    <article class="project">
+      <div class="p-info rv">
+        <span class="p-num">03 — SECURITY · OPEN SOURCE</span><span class="p-badge"><i></i>Open source</span>
+        <h3 class="p-title">RuleSight</h3>
+        <p class="p-tag">A security auditor for Firebase apps — finds the holes in Firestore rules before attackers do.</p>
+        <p class="p-desc">Every Firebase app ships its config to the browser, so security rules are the only wall around the database. RuleSight parses them, explains each risk in plain language and hands you the fix — in the browser or in CI.</p>
+        <div class="metric-row">
+          <div class="metric"><b>10</b><span>security checks</span></div>
+          <div class="metric"><b>0</b><span>runtime dependencies</span></div>
+          <div class="metric"><b>100%</b><span>client-side</span></div>
+        </div>
+        <ul class="p-list">
+          <li>Custom parser with function inlining and exact line numbers</li>
+          <li>Detects privilege escalation, missing ownership checks and test-mode rules</li>
+          <li>CLI with exit codes to block insecure rules in GitHub Actions</li>
+        </ul>
+        <div class="chips"><span class="chip">TypeScript</span><span class="chip">React</span><span class="chip">Vite</span><span class="chip">Vitest</span><span class="chip">Node CLI</span><span class="chip">GitHub Actions</span></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="https://kaerlix-maker.github.io/rulesight/" target="_blank" rel="noopener" class="btn btn-ghost mag">Try it live <span class="arr">↗</span></a>
+          <a href="https://github.com/kaerlix-maker/rulesight" target="_blank" rel="noopener" class="btn btn-ghost mag">Source code <span class="arr">↗</span></a>
+        </div>
+      </div>
+      <div class="stage rv d2 tilt">
+        <div class="gridbg"></div>
+        <div class="rs">
+          <div class="rs-top">
+            <svg class="rs-ring" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="2.4"/><circle cx="18" cy="18" r="15" fill="none" stroke="#ff6b6b" stroke-width="2.4" stroke-dasharray="14 100" stroke-linecap="round" transform="rotate(-90 18 18)"/><text x="18" y="22" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="Instrument Serif">F</text></svg>
+            <div><div class="mono" style="font-size:9px">FIRESTORE.RULES</div><h4>Critical issues found</h4></div>
+          </div>
+          <div class="rs-code"><span class="ln">16</span>allow create, update: <b>if request.auth.uid == userId;</b></div>
+          <div class="rs-f c"><i>CRITICAL</i>Users can promote themselves via “role”</div>
+          <div class="rs-f h"><i>HIGH</i>Missing ownership check on {userId}</div>
+          <div class="rs-f h"><i>HIGH</i>Documents created in someone else’s name</div>
+          <div class="rs-f m"><i>MEDIUM</i>Owner can rewrite “ownerId”</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 POS -->
+    <article class="project rev">
+      <div class="p-info rv">
+        <span class="p-num">04 — RETAIL · LAB</span><span class="p-badge soon"><i></i>In development</span>
+        <h3 class="p-title">Next-gen POS</h3>
+        <p class="p-tag">Point-of-sale and management software for restaurants and shops.</p>
+        <p class="p-desc">A modern replacement for the outdated cash-register software most restaurants and shops in Algeria still run on — fast checkout, menu management and clear daily numbers for the owner.</p>
+        <div class="chips"><span class="chip">Web app</span><span class="chip">Offline-ready</span><span class="chip">Dashboards</span></div>
+      </div>
+      <div class="stage rv d2 tilt">
+        <div class="gridbg"></div>
+        <div class="pos">
+          <div class="panel">
+            <span class="mono" style="font-size:10px">MENU</span>
+            <div class="tiles" id="tiles">
+              <div class="tile"><b>Espresso</b>150</div><div class="tile"><b>Latte</b>250</div><div class="tile"><b>Croissant</b>120</div>
+              <div class="tile"><b>Burger</b>650</div><div class="tile"><b>Pizza</b>800</div><div class="tile"><b>Juice</b>200</div>
+            </div>
+          </div>
+          <div class="panel ticket">
+            <span class="mono" style="font-size:10px">TABLE 04</span>
+            <div id="lines" style="margin-top:8px"></div>
+            <div class="tot"><span class="mono" style="font-size:10px">TOTAL</span><b><span id="total">0</span> DA</b></div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="sec" id="services" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="rv">What I <em>do</em></h2>
+      <p class="rv d1">One developer, end to end. You talk to the person who writes the code.</p>
+    </div>
+    <div class="services">
+      <div class="svc rv">
+        <span class="n">01</span>
+        <h3>Full web applications</h3>
+        <p>Complete products with accounts, data and business logic — not just a pretty landing page.</p>
+        <ul><li>User accounts &amp; roles</li><li>Real-time databases</li><li>Dashboards &amp; admin panels</li><li>Payments &amp; wallets</li></ul>
+      </div>
+      <div class="svc rv d1">
+        <span class="n">02</span>
+        <h3>MVPs for founders</h3>
+        <p>Have an idea? I turn it into a working product you can put in front of users and investors — fast.</p>
+        <ul><li>Scoping the essential features</li><li>Design to launch in weeks</li><li>Built to grow after v1</li><li>Multilingual from day one</li></ul>
+      </div>
+      <div class="svc rv d2">
+        <span class="n">03</span>
+        <h3>Secure by default</h3>
+        <p>Security isn't an add-on. Your users' data is protected from the first line of code.</p>
+        <ul><li>Authentication done right</li><li>Database access rules</li><li>Safe payment flows</li><li>Security review of your app</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="rv">How we'll <em>work</em></h2></div>
+    <div class="process">
+      <div class="step rv"><span class="mono">Step 01</span><h4>Discover</h4><p>A call to understand your users, your goal and your budget. You get a clear scope and price.</p></div>
+      <div class="step rv d1"><span class="mono">Step 02</span><h4>Design</h4><p>Screens and user flows you can click through before a single feature is built.</p></div>
+      <div class="step rv d2"><span class="mono">Step 03</span><h4>Build</h4><p>Weekly updates with a live link — you see progress, not promises.</p></div>
+      <div class="step rv d3"><span class="mono">Step 04</span><h4>Launch</h4><p>Deployment, testing with real users, and support after go-live.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="sec" id="about" style="padding-top:60px">
+  <div class="wrap about">
+    <div class="about-text">
+      <span class="mono rv">About</span>
+      <p class="big rv" style="margin-top:22px">Kaerlix is an independent studio of one — building products for <em>real people</em> in real markets.</p>
+      <p class="rv d1">I'm a developer with a mathematics background. I build software as products with users, pricing and marketing — not as exercises. That means I think about your business, not just your code.</p>
+          </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <span class="mono rv">Have a project in mind?</span>
+    <h2 class="rv d1">Let's build<br><em>something real.</em></h2>
+    <button class="mail rv d2" id="mailBtn" type="button"><span id="mailText">hello@yourdomain.com</span><small>Copy</small></button>
+    <div class="socials rv d3">
+      <a href="https://github.com/kaerlix-maker" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="#" target="_blank" rel="noopener">Malt ↗</a>
+      <a href="#" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="mono">© <span id="yr"></span> Kaerlix</span>
+    <span class="mono">Designed &amp; built by hand</span>
+  </div>
+</footer>
+<div class="toast" id="toast">Email copied</div>
+
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // header
+  const hdr = document.getElementById('hdr');
+  const onScroll = () => hdr.classList.toggle('scrolled', scrollY > 20);
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+
+  // reveal
+  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.15});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  // glow follows cursor
+  const glow = document.getElementById('glow');
+  if(!reduce && matchMedia('(pointer:fine)').matches){
+    addEventListener('mousemove', e => { glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px'; }, {passive:true});
+    // magnetic buttons
+    document.querySelectorAll('.mag').forEach(b => {
+      b.addEventListener('mousemove', e => { const r=b.getBoundingClientRect(); b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.25}px,${(e.clientY-r.top-r.height/2)*.35}px)`; });
+      b.addEventListener('mouseleave', () => b.style.transform='');
+    });
+    // tilt stages
+    document.querySelectorAll('.tilt').forEach(s => {
+      s.addEventListener('mousemove', e => { const r=s.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; s.style.transform=`perspective(1200px) rotateY(${x*6}deg) rotateX(${-y*6}deg)`; });
+      s.addEventListener('mouseleave', () => s.style.transform='');
+    });
+  }
+
+  // AI tutor typing
+  const msgs = ["Stuck on limits? Let's do one together — what happens to 1/x as x grows?","You scored 6/10 on yesterday's QCM. Want a 5-minute review of the mistakes?","Next lesson unlocks after this quiz. You're 3 questions away."];
+  const ai = document.getElementById('aiText'); let mi=0;
+  function type(){ const m=msgs[mi]; let i=0; ai.textContent='';
+    if(reduce){ ai.textContent=m; return; }
+    const t=setInterval(()=>{ ai.textContent=m.slice(0,++i); if(i>=m.length){ clearInterval(t); setTimeout(()=>{ mi=(mi+1)%msgs.length; type(); },2600); } },28); }
+  type();
+
+  // POS demo
+  const tiles=[...document.querySelectorAll('#tiles .tile')], lines=document.getElementById('lines'), total=document.getElementById('total');
+  let order=[];
+  function render(){ lines.innerHTML=order.slice(-4).map(o=>`<div class="ln"><span>${o.n}</span><span>${o.p}</span></div>`).join(''); total.textContent=order.reduce((s,o)=>s+o.p,0).toLocaleString('en'); }
+  function add(t){ const n=t.querySelector('b').textContent, p=parseInt(t.textContent.replace(n,'')); order.push({n,p}); if(order.length>6) order=[]; t.classList.add('hit'); setTimeout(()=>t.classList.remove('hit'),500); render(); }
+  tiles.forEach(t=>t.addEventListener('click',()=>add(t)));
+  if(!reduce) setInterval(()=>add(tiles[Math.floor(Math.random()*tiles.length)]),1600);
+
+  // copy email
+  const toast=document.getElementById('toast');
+  document.getElementById('mailBtn').addEventListener('click', async ()=>{
+    const v=document.getElementById('mailText').textContent;
+    try{ await navigator.clipboard.writeText(v); toast.textContent='Email copied'; }catch(e){ toast.textContent=v; }
+    toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1800);
+  });
+})();
+</script>
+</body>
+</html>
